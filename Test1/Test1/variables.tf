@@ -22,7 +22,7 @@ variable "Hello" {
     default = "HelloWorld"
 }
 
-#   security_groups = [ aws_security_group.sec_group.id ]
+#   security_groups = [ aws_security_group.sg.id ]
 
 variable "security_groups" {
     description = "id output from sec_group"

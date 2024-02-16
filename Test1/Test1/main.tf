@@ -1,16 +1,23 @@
-provider "aws" {
-}
 
-module "ec2" {
-    source = "./modules/ec2"
-    aws_security_group = var.aws_security_group.id
-    security_groups = var.aws_security_group
+module "aws_security_group" {
+  source = "./modules/sec_group"
 }
 
 module "sec_group" {
-    source = "./modules/sec_group"
+  source              = "./modules/sec_group"
+
+  # No additional inputs are needed
 }
 
-output "ec2" {
-    value = var.aws_security_group.sg.id
+module "ec2" {
+  source              = "./modules/ec2"
+  aws_security_group  = module.security_groups.aws_security_group  // Pass the AWS security group module reference
+  // Ensure that security_groups variable is provided if needed by the ec2 module
+  # security_groups     = module.security_groups.security_group_id
+  security_groups = [ module.security_groups.sec_group.id ]
+}
+
+# Output variables if needed
+output "ec2_instance_id" {
+  value = module.aws_security_group
 }
