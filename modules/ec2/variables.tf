@@ -24,7 +24,7 @@ variable "Hello" {
 
 #   security_groups = [ aws_security_group.sec_group.id ]
 
-variable "security_groups" {
+variable "security_group_id" {
     description = "id output from sec_group"
     type = string
 }
@@ -41,3 +41,4 @@ variable "aws_security_group" {
 # output "aws_security_group" {
 #     value = aws_security_group.sg
 # }
+
