@@ -1,9 +1,5 @@
 # main.tf
 
-# Initialize aws provider
-provider "aws" {
-  region = aws.region
-}
 
 module "security_group" {
   source = "./modules/sec_group"
