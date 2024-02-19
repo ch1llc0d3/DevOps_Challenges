@@ -6,7 +6,8 @@ module "ec2" {
   # iam_instance_profile  = var.iam_instance_profile
   # Hello                 = var.hola
   # modulo.nombre del module en el main. nombre del output
-  security_groups       = module.sec_group.security_group_id
+  # security_groups       = module.sec_group.security_group_id
+  security_groups = module.sec_group.security_group_id
   }
 
 module "sec_group" {
@@ -14,6 +15,3 @@ module "sec_group" {
   # Define any required variables for the security_group module here
 }
 
-# output "ec2" {
-  
-# }
