@@ -22,7 +22,7 @@ terraform {
 }
 
 # Configure the AWS Provider
-provider "aws" {
-  # profile = "ecs-dev"
-  region  = var.aws_region
-}
+# provider "aws" {
+#   # profile = "ecs-dev"
+#   region  = var.aws_region
+# }

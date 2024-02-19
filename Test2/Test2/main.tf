@@ -27,10 +27,10 @@ module "security_group" {
 resource "aws_instance" "web" {
   ami                    = var.ami
   instance_type          = var.instance_type
-  # security_groups        = [module.security_group.security_group_id]
-  security_groups = [var.aws_security_group.id]
-  # iam_instance_profile   = module.iam.iam_instance_profile_arn
-  iam_instance_profile = var.iam_instance_profile
+  security_groups        = [module.security_group.security_group_id]
+  # security_groups = [var.security_group_id]
+  iam_instance_profile   = module.iam.iam_instance_profile_arn
+  # iam_instance_profile = var.iam_instance_profile
 
   tags = {
     Name = var.hola

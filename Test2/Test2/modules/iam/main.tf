@@ -24,7 +24,7 @@ resource "aws_iam_policy" "task_role_policy" {
   name = var.ecs_task_policy_name
   description = "Custom Policy for Stage"
   path = "/"
-  policy = data.aws_iam_policy_document.baf_ecs_task_role_permissions.json
+  policy = data.aws_iam_policy_document.task_role_permissions.json
 }
 
 data "aws_iam_policy_document" "task_role_permissions" {
@@ -123,7 +123,7 @@ resource "aws_iam_role_policy_attachment" "task_role_att_1" {
   policy_arn = aws_iam_policy.task_role_policy.arn
 }
 
-resource "aws_iam_instance_profile" "instance_profle" {
+resource "aws_iam_instance_profile" "instance_profile" {
   # name = "ecs-instance-profile"
   name = var.ecs_instance_profile_name
   role = aws_iam_role.task_role.name

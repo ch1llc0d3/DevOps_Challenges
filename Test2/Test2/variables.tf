@@ -36,11 +36,11 @@ variable "ecs_instance_profile_name" {
 # The following variables are not necessary in the root folder and should be moved to the respective module folders (iam and security_group):
 
 variable "security_groups" {
-    type = string
+    type = set(string)
 }
 
 variable "aws_security_group" {
-    type = string
+    type = set(string)
 }
 
 variable "iam_instance_profile" {
@@ -61,3 +61,4 @@ variable "hola" {
     default = "HelloWorld"
   
 }
+
