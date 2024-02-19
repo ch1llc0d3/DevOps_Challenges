@@ -1,36 +1,24 @@
-
 variable "ami" {
-    type    = string
-    default = "ami-12345667"
+  type    = string
+  # Example default value: "ami-1234567890abcdef0"
 }
 
 variable "instance_type" {
-    type    = string
-    default = "t3.micro"
+  type    = string
+  # Example default value: "t2.micro"
 }
 
 variable "security_group_id" {
-    type = string
+  type    = string
+  # No default value as it will be provided by the security group module output
 }
 
 variable "iam_instance_profile_arn" {
-    type = string
+  type    = string
+  # Example default value: "arn:aws:iam::123456789012:instance-profile/my-instance-profile"
 }
 
-variable "iam_instance_profile" {
-    type = string
-  
-}
 variable "hola" {
-    type = string
-    default = "HelloWorld"
-  
-}
-
-variable "aws_security_group" {
-    type = string
-}
-
-variable "security_groups" {
-  type = string
+  type    = string
+  # Example default value: "MyEC2Instance"
 }
