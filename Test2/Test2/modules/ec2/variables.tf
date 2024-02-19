@@ -22,8 +22,3 @@ variable "iam_instance_profile" {
 variable "aws_iam_instance_profile" {
     type = string
 }
-
-variable "vpc_id" {
-    type = string
-    default = "vpc-12345678"
-}

@@ -1,7 +1,7 @@
 resource "aws_security_group" "sg" {
   name        = "My Security Group"
   description = "Basic security group for my VPC."
-  vpc_id      = "vpc-12345678"
+  vpc_id      = var.vpc_id
 
   ingress {
     protocol    = "tcp"
