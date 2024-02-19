@@ -29,15 +29,3 @@ variable "security_groups" {
     type = string
 }
 
-# output "security_groups" {
-#     value = aws_security_group.sg.id
-# }
-
-variable "aws_security_group" {
-    description = "output from sec_group"
-    type = string
-}
-
-# output "aws_security_group" {
-#     value = aws_security_group.sg
-# }

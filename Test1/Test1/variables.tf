@@ -15,10 +15,15 @@ variable "hola" {
 #   security_groups = [ aws_security_group.sec_group.id ]
 
 variable "security_groups" {
-    description = "id output from sec_group"
     type = string
-    default = "arn:aws:iam::123456789012:instance-profile/ecsInstanceRole"
 }
 
-security_groups = [ aws_security_group.sec_group.id ]
+variable "aws_security_group" {
+    type = string
+}
 
+variable "iam_instance_profile" {
+    description = "iam instance profile"
+    type    = string
+    default = "rn:aws:iam::123456789012:instance-profile/ecsInstanceRole"
+}
