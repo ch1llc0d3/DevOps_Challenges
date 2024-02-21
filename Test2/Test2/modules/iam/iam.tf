@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "baf_ecs_task_role_permissions" {
       "kms:GenerateDataKey",
       "kms:DescribeKey",
       "kms:Sign",
-      "secretsmanager:GetSecretValue"
+      "secretsmanager:GetSecretValue" 
     ]
     resources = [
       "*"
