@@ -16,9 +16,11 @@ variable "security_groups" {
 }
 
 variable "iam_instance_profile" {
-  description = " iam_instance_profile = aws_iam_instance_profile.instance_profle.arn "
-  type        = string
+  description = "IAM instance profile ARN"
+  type = string
+  default = null
 }
+
 
 variable "hola" {
   description = "name "
@@ -27,5 +29,7 @@ variable "hola" {
 }
 
 variable "aws_iam_instance_profile" {
+  type = string
+  default = null
 }
 

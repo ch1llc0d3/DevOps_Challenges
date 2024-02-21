@@ -1,11 +1,13 @@
 module "ec2" {
-  source = "./modules/ec2"
+  source                   = "./modules/ec2"
   # aws_iam_instance_profile = [module.iam.aws_iam_instance_profile]
-  aws_iam_instance_profile = module.iam.iam_instance_profile_arn # 1st ARN
-
+  # aws_iam_instance_profile = module.iam.iam_instance_profile_arn  # 1st ARN
+  aws_iam_instance_profile = length(module.iam.aws_iam_instance_profile) > 0 ? module.iam.aws_iam_instance_profile[0] : null
   # iam_instance_profile     = module.iam.iam_instance_profile_arn
-  iam_instance_profile = module.iam.iam_instance_profile_arn[0] # 1st ARN
-  security_groups      = module.sec_group.security_groups
+  #  iam_instance_profile     = module.iam.iam_instance_profile_arn[0] # 1st ARN this one works when create_instance.. is true
+  iam_instance_profile     = length(module.iam.iam_instance_profile_arn) > 0 ? module.iam.iam_instance_profile_arn[0] : null
+
+  security_groups          = module.sec_group.security_groups
 
 }
 
@@ -13,17 +15,18 @@ module "iam" {
   source = "./modules/iam"
   iam_policy_statements = [
     {
-      actions   = ["s3:GetObject"]
+      actions = ["s3:GetObject"]
       resources = ["arn:aws:s3:::my-bucket/*"]
-      effect    = "Allow"
+      effect = "Allow"
     },
     {
-      actions   = ["s3:PutObject"]
+      actions = ["s3:PutObject"]
       resources = ["arn:aws:s3:::my-bucket/upload/*"]
-      effect    = "Allow"
+      effect = "Allow"
     },
   ]
-  create_instance_profile = false
+  # create_instance_profile = true # everything ok with this true
+  create_instance_profile = false # need to change the conditional for this one in the iam_instance_profile
 }
 
 
