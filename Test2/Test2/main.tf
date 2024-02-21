@@ -1,8 +1,11 @@
 module "ec2" {
-  source                   = "./modules/ec2"
-  aws_iam_instance_profile = [module.iam.aws_iam_instance_profile]
-  iam_instance_profile     = module.iam.iam_instance_profile_arn
-  security_groups          = module.sec_group.security_groups
+  source = "./modules/ec2"
+  # aws_iam_instance_profile = [module.iam.aws_iam_instance_profile]
+  aws_iam_instance_profile = module.iam.iam_instance_profile_arn # 1st ARN
+
+  # iam_instance_profile     = module.iam.iam_instance_profile_arn
+  iam_instance_profile = module.iam.iam_instance_profile_arn[0] # 1st ARN
+  security_groups      = module.sec_group.security_groups
 
 }
 
@@ -10,16 +13,17 @@ module "iam" {
   source = "./modules/iam"
   iam_policy_statements = [
     {
-      actions = ["s3:GetObject"]
+      actions   = ["s3:GetObject"]
       resources = ["arn:aws:s3:::my-bucket/*"]
-      effect = "Allow"
+      effect    = "Allow"
     },
     {
-      actions = ["s3:PutObject"]
+      actions   = ["s3:PutObject"]
       resources = ["arn:aws:s3:::my-bucket/upload/*"]
-      effect = "Allow"
+      effect    = "Allow"
     },
   ]
+  create_instance_profile = false
 }
 
 

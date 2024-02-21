@@ -137,3 +137,9 @@ variable "task_role_permissions_statements" {
     },
   ]
 }
+
+variable "create_instance_profile" {
+  description = "Wether to create the IAM instance profile"
+  type = bool
+  default = true
+}

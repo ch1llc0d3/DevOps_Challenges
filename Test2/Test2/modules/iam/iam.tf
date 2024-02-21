@@ -184,6 +184,7 @@ resource "aws_iam_role_policy_attachment" "task_role_att_1" {
 }
 
 resource "aws_iam_instance_profile" "instance_profile" {
+  count = var.create_instance_profile ? 1 : 0
   name = var.instance_profile_name
   role = aws_iam_role.task_role.name
   tags = {
