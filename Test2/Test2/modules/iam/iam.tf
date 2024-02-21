@@ -1,5 +1,5 @@
 resource "aws_iam_role" "task_role" {
-  name = "ecs-task-role"
+  name = var.ecs_task_role_name
   tags = {
     Environment = "Stage"
   }
@@ -19,66 +19,107 @@ data "aws_iam_policy_document" "task_role_assume_policy" {
   }
 }
 resource "aws_iam_policy" "task_role_policy" {
-  name = "ecs-task-policy"
+  name        = var.ecs_task_policy_name
   description = "Custom Policy for Stage"
-  path = "/"
+  path        = "/"
+  # Needs to be declared
   policy = data.aws_iam_policy_document.baf_ecs_task_role_permissions.json
 }
 
+data "aws_iam_policy_document" "baf_ecs_task_role_permissions" {
+  statement {
+    actions = [
+      "polly:*",
+      "s3:*",
+      "sns:*",
+      "textract:DetectDocumentText",
+      "transcribe:StartTranscriptionJob",
+      "transcribe:GetTranscriptionJob",
+      "kms:GetPublicKey",
+      "kms:Decrypt",
+      "kms:ListKeyPolicies",
+      "kms:UntagResource",
+      "kms:ListRetirableGrants",
+      "kms:GetKeyPolicy",
+      "kms:Verify",
+      "kms:ListResourceTags",
+      "kms:ListGrants",
+      "kms:GetParametersForImport",
+      "kms:DescribeCustomKeyStores",
+      "kms:ListKeys",
+      "kms:TagResource",
+      "kms:Encrypt",
+      "kms:GetKeyRotationStatus",
+      "kms:ListAliases",
+      "kms:GenerateDataKey",
+      "kms:DescribeKey",
+      "kms:Sign",
+      "secretsmanager:GetSecretValue"
+    ]
+    resources = [
+      "*"
+    ]
+    effect = "Allow"
+  }
+}
+
+
+
+
 data "aws_iam_policy_document" "task_role_permissions" {
   statement {
-    actions = [ 
+    actions = [
       "polly:*"
-     ]
-    resources = [ 
+    ]
+    resources = [
       "*"
-     ]
+    ]
     effect = "Allow"
   }
 
   statement {
-    actions = [ 
+    actions = [
       "s3:*"
-     ]
-    resources = [ 
+    ]
+    resources = [
       "*"
-     ]
+    ]
     effect = "Allow"
   }
 
   statement {
-    actions = [ 
+    actions = [
       "sns:*"
-     ]
-    resources = [ 
+    ]
+    resources = [
       "*"
-     ]
+    ]
     effect = "Allow"
   }
 
   statement {
-    actions = [ 
+    actions = [
       "textract:DetectDocumentText"
-     ]
-    resources = [ 
+    ]
+    resources = [
       "*"
-     ]
+    ]
     effect = "Allow"
   }
 
   statement {
-    actions = [ 
+    actions = [
       "transcribe:StartTranscriptionJob",
       "transcribe:GetTranscriptionJob"
-     ]
-    resources = [ 
+    ]
+    resources = [
       "*"
-     ]
+    ]
     effect = "Allow"
   }
 
   statement {
-    actions = [ 
+    actions = [
       "kms:GetPublicKey",
       "kms:Decrypt",
       "kms:ListKeyPolicies",
@@ -98,34 +139,34 @@ data "aws_iam_policy_document" "task_role_permissions" {
       "kms:GenerateDataKey",
       "kms:DescribeKey",
       "kms:Sign"
-     ]
-    resources = [ 
+    ]
+    resources = [
       "*"
-     ]
+    ]
     effect = "Allow"
   }
 
   statement {
-    actions = [ 
+    actions = [
       "secretsmanager:GetSecretValue"
-     ]
-    resources = [ 
-      "arn:aws::secrets:123123123:secrets:"
-     ]
+    ]
+    resources = [
+      var.arn_awn_secrets
+    ]
   }
 
 }
 
 resource "aws_iam_role_policy_attachment" "task_role_att_1" {
-  role = aws_iam_role.task_role.name
+  role       = aws_iam_role.task_role.name
   policy_arn = aws_iam_policy.task_role_policy.arn
 }
 
-resource "aws_iam_instance_profile" "instance_profle" {
-  name = "ecs-instance-profile"
+resource "aws_iam_instance_profile" "instance_profile" {
+  name = var.instance_profile_name
   role = aws_iam_role.task_role.name
   tags = {
-    Name = "ecs-instance-profile-Test"
-    Environment= "Test"
+    Name        = var.instance_instance_prof_test
+    Environment = var.instance_p_tag
   }
 }

@@ -1,13 +1,13 @@
 terraform {
-#   backend "s3" {
-#    bucket         = "terraform"
-#    key            = "prueba-1/terraform.tfstate"
-#    region         = "us-east-1"
-#    encrypt        = true
-#    kms_key_id     = "alias/terraform-key"
-#    dynamodb_table = "terraform-state"
-#   #  profile = "ecs-dev"
-#  }
+  #   backend "s3" {
+  #    bucket         = "terraform"
+  #    key            = "prueba-1/terraform.tfstate"
+  #    region         = "us-east-1"
+  #    encrypt        = true
+  #    kms_key_id     = "alias/terraform-key"
+  #    dynamodb_table = "terraform-state"
+  #   #  profile = "ecs-dev"
+  #  }
 
   required_providers {
     aws = {
@@ -15,7 +15,7 @@ terraform {
       version = "~> 4.47.0"
     }
     local = {
-      source = "hashicorp/local"
+      source  = "hashicorp/local"
       version = "~> 2.4.0"
     }
   }
@@ -24,5 +24,5 @@ terraform {
 # Configure the AWS Provider
 provider "aws" {
   # profile = "ecs-dev"
-  region  = "us-east-1"
+  region = "us-east-1"
 }
