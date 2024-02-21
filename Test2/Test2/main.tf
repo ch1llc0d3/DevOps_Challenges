@@ -10,14 +10,14 @@ module "iam" {
   source = "./modules/iam"
   iam_policy_statements = [
     {
-      actions   = ["s3:GetObject"]
+      actions = ["s3:GetObject"]
       resources = ["arn:aws:s3:::my-bucket/*"]
-      effect    = "Allow"
+      effect = "Allow"
     },
     {
-      actions   = ["s3:GetObject"]
-      resources = ["arn:aws:s3:::my-bucket/*"]
-      effect    = "Allow"
+      actions = ["s3:PutObject"]
+      resources = ["arn:aws:s3:::my-bucket/upload/*"]
+      effect = "Allow"
     },
   ]
 }
