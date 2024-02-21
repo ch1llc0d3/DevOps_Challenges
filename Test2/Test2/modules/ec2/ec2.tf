@@ -10,4 +10,12 @@ resource "aws_instance" "web" {
   tags = {
     Name = var.hola
   }
+
+    # Set iam_instance_profile only if it's not null
+  dynamic "iam_instance_profile" {
+    for_each = var.iam_instance_profile != null ? [var.iam_instance_profile] : []
+    content {
+      arn = iam_instance_profile.value
+    }
+  }
 }
