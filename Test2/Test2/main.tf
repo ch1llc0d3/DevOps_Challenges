@@ -8,7 +8,18 @@ module "ec2" {
 
 module "iam" {
   source = "./modules/iam"
-
+  iam_policy_statements = [
+    {
+      actions   = ["s3:GetObject"]
+      resources = ["arn:aws:s3:::my-bucket/*"]
+      effect    = "Allow"
+    },
+    {
+      actions   = ["s3:GetObject"]
+      resources = ["arn:aws:s3:::my-bucket/*"]
+      effect    = "Allow"
+    },
+  ]
 }
 
 
@@ -43,7 +54,7 @@ module "sec_group" {
       cidr_blocks = ["0.0.0.0/0"]
     }
   ]
-  
+
   egress_rules = [
     {
       from_port   = 0

@@ -50,7 +50,7 @@ variable "iam_policy_statements" {
   }))
   default = [
     {
-      actions   = [
+      actions = [
         "polly:*",
         "s3:*",
         "sns:*",
@@ -81,5 +81,59 @@ variable "iam_policy_statements" {
       resources = ["*"]
       effect    = "Allow"
     }
+  ]
+}
+
+variable "task_role_permissions_statements" {
+  description = "List of IAM policy statements for task role permissions"
+  type = list(object({
+    actions   = list(string)
+    resources = list(string)
+    effect    = string
+  }))
+  default = [
+    {
+      actions   = ["polly:*"]
+      resources = ["*"]
+      effect    = "Allow"
+    },
+    {
+      actions   = ["s3:*"]
+      resources = ["*"]
+      effect    = "Allow"
+    },
+    {
+      actions   = ["sns:*"]
+      resources = ["*"]
+      effect    = "Allow"
+    },
+    {
+      actions   = ["textract:DetectDocumentText"]
+      resources = ["*"]
+      effect    = "Allow"
+    },
+    {
+      actions   = ["transcribe:StartTranscriptionJob", "transcribe:GetTranscriptionJob"]
+      resources = ["*"]
+      effect    = "Allow"
+    },
+    {
+      actions = [
+        "kms:GetPublicKey", "kms:Decrypt", "kms:ListKeyPolicies",
+        "kms:UntagResource", "kms:ListRetirableGrants", "kms:GetKeyPolicy",
+        "kms:Verify", "kms:ListResourceTags", "kms:ListGrants",
+        "kms:GetParametersForImport", "kms:DescribeCustomKeyStores", "kms:ListKeys",
+        "kms:TagResource", "kms:Encrypt", "kms:GetKeyRotationStatus",
+        "kms:ListAliases", "kms:GenerateDataKey", "kms:DescribeKey", "kms:Sign"
+      ]
+      resources = ["*"]
+      effect    = "Allow"
+    },
+    {
+      actions = ["secretsmanager:GetSecretValue"]
+      # resources = [var.arn_awn_secrets]
+      resources = ["arn:aws::secrets:123123123:secrets:"]
+      effect    = "Allow"
+    },
   ]
 }
