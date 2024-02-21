@@ -25,6 +25,18 @@ resource "aws_security_group" "sg" {
     }
   }
 
+  # Other ingress and egress rules...
+
+  # dynamic "ingress_rule" {
+  #   for_each = var.additional_ingress_rules
+
+  #   content {
+  #     from_port   = ingress_rule.value.from_port
+  #     to_port     = ingress_rule.value.to_port
+  #     protocol    = ingress_rule.value.protocol
+  #     cidr_blocks = ingress_rule.value.cidr_blocks
+  #   }
+  # }
   tags = {
     Name        = "My security group"
     Environment = "Dev"
