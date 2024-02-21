@@ -26,43 +26,54 @@ resource "aws_iam_policy" "task_role_policy" {
   policy = data.aws_iam_policy_document.baf_ecs_task_role_permissions.json
 }
 
+# data "aws_iam_policy_document" "baf_ecs_task_role_permissions" {
+#   statement {
+#     actions = [
+#       "polly:*",
+#       "s3:*",
+#       "sns:*",
+#       "textract:DetectDocumentText",
+#       "transcribe:StartTranscriptionJob",
+#       "transcribe:GetTranscriptionJob",
+#       "kms:GetPublicKey",
+#       "kms:Decrypt",
+#       "kms:ListKeyPolicies",
+#       "kms:UntagResource",
+#       "kms:ListRetirableGrants",
+#       "kms:GetKeyPolicy",
+#       "kms:Verify",
+#       "kms:ListResourceTags",
+#       "kms:ListGrants",
+#       "kms:GetParametersForImport",
+#       "kms:DescribeCustomKeyStores",
+#       "kms:ListKeys",
+#       "kms:TagResource",
+#       "kms:Encrypt",
+#       "kms:GetKeyRotationStatus",
+#       "kms:ListAliases",
+#       "kms:GenerateDataKey",
+#       "kms:DescribeKey",
+#       "kms:Sign",
+#       "secretsmanager:GetSecretValue" 
+#     ]
+#     resources = [
+#       "*"
+#     ]
+#     effect = "Allow"
+#   }
+# }
+
 data "aws_iam_policy_document" "baf_ecs_task_role_permissions" {
-  statement {
-    actions = [
-      "polly:*",
-      "s3:*",
-      "sns:*",
-      "textract:DetectDocumentText",
-      "transcribe:StartTranscriptionJob",
-      "transcribe:GetTranscriptionJob",
-      "kms:GetPublicKey",
-      "kms:Decrypt",
-      "kms:ListKeyPolicies",
-      "kms:UntagResource",
-      "kms:ListRetirableGrants",
-      "kms:GetKeyPolicy",
-      "kms:Verify",
-      "kms:ListResourceTags",
-      "kms:ListGrants",
-      "kms:GetParametersForImport",
-      "kms:DescribeCustomKeyStores",
-      "kms:ListKeys",
-      "kms:TagResource",
-      "kms:Encrypt",
-      "kms:GetKeyRotationStatus",
-      "kms:ListAliases",
-      "kms:GenerateDataKey",
-      "kms:DescribeKey",
-      "kms:Sign",
-      "secretsmanager:GetSecretValue" 
-    ]
-    resources = [
-      "*"
-    ]
-    effect = "Allow"
+  dynamic "statement" {
+    for_each = var.iam_policy_statements
+
+    content {
+      actions   = statement.value.actions
+      resources = statement.value.resources
+      effect    = statement.value.effect
+    }
   }
 }
-
 
 
 
