@@ -1,9 +1,11 @@
+# main.tf
+
 # Virtual Private Cloud (VPC):
 # Create a VPC with a CIDR block of your choice.
 resource "aws_vpc" "my_vpc" {
-  cidr_block             = var.vpc_cidr_block
-  instance_tenancy       = "default"
-  enable_dns_hostnames   = true
+  cidr_block           = var.vpc_cidr_block
+  instance_tenancy     = "default"
+  enable_dns_hostnames = true
 
   tags = {
     Name = var.vpc_name
@@ -11,32 +13,18 @@ resource "aws_vpc" "my_vpc" {
 }
 
 # Include two public subnets and two private subnets.
-# Public subnet 1
-resource "aws_subnet" "public_subnet_1" {
-  vpc_id            = aws_vpc.my_vpc.id
-  cidr_block        = "10.0.1.0/24"
-  availability_zone = "us-east-1a"
+# Public subnets
+resource "aws_subnet" "public_subnets" {
+  count      = length(var.public_subnet_cidrs)
+  vpc_id     = aws_vpc.my_vpc.id
+  cidr_block = var.public_subnet_cidrs[count.index]
 }
 
-# Public subnet 2
-resource "aws_subnet" "public_subnet_2" {
-  vpc_id            = aws_vpc.my_vpc.id
-  cidr_block        = "10.0.2.0/24"
-  availability_zone = "us-east-1b"
-}
-
-# Private subnet 1
-resource "aws_subnet" "private_subnet_1" {
-  vpc_id            = aws_vpc.my_vpc.id
-  cidr_block        = "10.0.3.0/24"
-  availability_zone = "us-east-1a"
-}
-
-# Private subnet 2
-resource "aws_subnet" "private_subnet_2" {
-  vpc_id            = aws_vpc.my_vpc.id
-  cidr_block        = "10.0.4.0/24"
-  availability_zone = "us-east-1b"
+# Private subnets
+resource "aws_subnet" "private_subnets" {
+  count      = length(var.private_subnet_cidrs)
+  vpc_id     = aws_vpc.my_vpc.id
+  cidr_block = var.private_subnet_cidrs[count.index]
 }
 
 # Configure appropriate route tables and associations.
@@ -56,40 +44,30 @@ resource "aws_route_table" "public_route_table" {
 }
 
 # Associate public subnets with the public route table
-resource "aws_route_table_association" "pubs_1_a" {
-  subnet_id      = aws_subnet.public_subnet_1.id
-  route_table_id = aws_route_table.public_route_table.id
-}
-
-resource "aws_route_table_association" "pubs_2_a" {
-  subnet_id      = aws_subnet.public_subnet_2.id
+resource "aws_route_table_association" "public_subnet_associations" {
+  count          = length(var.public_subnet_cidrs)
+  subnet_id      = aws_subnet.public_subnets[count.index].id
   route_table_id = aws_route_table.public_route_table.id
 }
 
 # Associate private subnets with the public route table
-resource "aws_route_table_association" "privs_1_a" {
-  subnet_id      = aws_subnet.private_subnet_1.id
+resource "aws_route_table_association" "private_subnet_associations" {
+  count          = length(var.private_subnet_cidrs)
+  subnet_id      = aws_subnet.private_subnets[count.index].id
   route_table_id = aws_route_table.public_route_table.id
-}
-
-resource "aws_route_table_association" "privs_2_a" {
-  subnet_id      = aws_subnet.private_subnet_2.id
-  route_table_id = aws_route_table.public_route_table.id
-}
-
-resource "aws_subnet" "public_subnets" {
-  count      = length(var.public_subnet_cidrs)
-  vpc_id     = var.vpc_id
-  cidr_block = var.public_subnet_cidrs[count.index]
-}
-
-resource "aws_subnet" "private_subnets" {
-  count      = length(var.private_subnet_cidrs)
-  vpc_id     = var.vpc_id
-  cidr_block = var.private_subnet_cidrs[count.index]
 }
 
 output "public_subnet_ids" {
   description = "IDs of the created public subnets."
   value       = aws_subnet.public_subnets[*].id
+}
+
+output "private_subnet_ids" {
+  description = "IDs of the created private subnets."
+  value       = aws_subnet.private_subnets[*].id
+}
+
+output "vpc_id" {
+  description = "ID of the created VPC."
+  value       = aws_vpc.my_vpc.id
 }
