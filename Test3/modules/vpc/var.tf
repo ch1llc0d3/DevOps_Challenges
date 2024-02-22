@@ -9,9 +9,10 @@ variable "vpc_name" {
 }
 
 variable "vpc_id" {
-  description = "ID of the VPC."
+  description = "The ID of the VPC"
   type        = string
 }
+
 
 variable "public_subnet_cidrs" {
   description = "CIDR blocks for public subnets."
