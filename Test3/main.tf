@@ -17,3 +17,7 @@ module "route_s" {
   vpc_id            = module.vpc.vpc_id
   public_subnet_ids = module.subs.public_subnet_ids
 }
+
+module "ec2" {
+  source = "./modules/ec2"
+}
