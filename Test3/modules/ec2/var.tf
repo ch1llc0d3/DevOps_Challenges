@@ -1,22 +1,17 @@
-# variable "private_subnets" {
-#   description = "List of IDs of the private subnets where EC2 instances will be launched."
-#   type        = list(string)
-# }
-
 variable "ami_id" {
-  description = "ami id"
+  description = "AMI ID for the EC2 instances"
   type        = string
-  default     = "ami-12345678"
+  default     = "ami-12345678" // Default AMI ID
 }
 
 variable "instance_type" {
-  description = "instance type"
+  description = "Instance type for the EC2 instances"
   type        = string
-  default     = "t2.micro"
+  default     = "t2.micro" // Default instance type
 }
 
 variable "private_subnets" {
-  description = "CIDR blocks for private subnets"
+  description = "List of CIDR blocks for private subnets"
   type        = list(string)
-  default     = ["10.0.3.0/24", "10.0.4.0/24"]  # Default CIDR blocks for private subnets
+  default     = ["10.0.3.0/24", "10.0.4.0/24"] // Default CIDR blocks for private subnets
 }

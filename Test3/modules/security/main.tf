@@ -1,5 +1,3 @@
-# main.tf
-
 # Define security group for EC2 instances
 resource "aws_security_group" "instance_sg" {
   name        = var.instance_security_group_name
@@ -29,4 +27,21 @@ resource "aws_security_group" "instance_sg" {
       security_groups = egress.value.security_groups
     }
   }
+
+  # Define ingress rule for ALB
+  ingress {
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    cidr_blocks     = []
+    security_groups = [var.alb_security_group_id]  # Allow traffic only from ALB's security group
+  }
+}
+
+resource "aws_security_group" "alb_sg" {
+  name        = "alb-security-group"
+  description = "Security group for the ALB."
+  vpc_id      = var.vpc_id
+
+  # Define your security group rules here...
 }
