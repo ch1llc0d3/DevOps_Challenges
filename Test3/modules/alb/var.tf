@@ -1,4 +1,4 @@
-variable "alb_name" {
+variable "name" {
   description = "Name of the Application Load Balancer (ALB)"
   type        = string
 }
@@ -13,14 +13,27 @@ variable "subnets" {
   type        = list(string)
 }
 
-variable "security_group_id" {
-  description = "Security group ID for the ALB"
-  type        = string
+variable "target_groups" {
+  description = "Map of ALB target group configurations"
+  type        = map(object({
+    name_prefix   = string
+    protocol      = string
+    port          = number
+    target_type   = string
+  }))
 }
 
-variable "target_group_name" {
-  description = "Name of the ALB target group"
-  type        = string
+variable "health_check_configurations" {
+  description = "List of health check configurations for ALB target groups"
+  type        = list(object({
+    port     = number
+    protocol = string
+  }))
+}
+
+variable "tags" {
+  description = "A map of tags to assign to the resource."
+  type        = map(string)
 }
 
 variable "vpc_id" {
