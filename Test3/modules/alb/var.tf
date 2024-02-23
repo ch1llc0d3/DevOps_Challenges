@@ -40,3 +40,8 @@ variable "vpc_id" {
   description = "ID of the VPC where the ALB will be deployed"
   type        = string
 }
+
+variable "sg_ids" {
+  type = list(string)
+  description = "Lista de sgs"
+}

@@ -4,6 +4,7 @@ resource "aws_instance" "web_servers" {
   instance_type = var.instance_type
 
   subnet_id = var.private_subnets[count.index] // Place instances in private subnets
+  vpc_security_group_ids = var.sg_ids
 
   // Other instance configurations...
 }

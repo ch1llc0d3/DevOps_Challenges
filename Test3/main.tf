@@ -11,15 +11,34 @@ module "vpc" {
 # Module for creating EC2 instances
 module "ec2" {
   source = "./modules/ec2"
+  sg_ids = [ module.sg_ec2.instance_security_group_id ]
   # Pass any required variables for the EC2 module
 }
 
 # Module for creating security groups
-module "security" {
+module "sg_ec2" {
   source                       = "./modules/security"
-  alb_security_group_id        = module.security.alb_security_group_id # Provide the ALB security group ID here
+  instance_security_group_name = "example-instance-sg"
+  vpc_id                       = "vpc-12345678"  # Replace with your actual VPC ID
+  ingress_rules = [
+    {
+      from_port       = 80
+      to_port         = 80
+      protocol        = "tcp"
+      cidr_blocks     = ["0.0.0.0/0"]
+      security_groups = []
+    }
+  ]
+  egress_rules = []  # Add egress rules if needed
+}
+
+
+module "sg_alb" {
+  source                       = "./modules/security"
   instance_security_group_name = "example-instance-sg"
   vpc_id                       = module.vpc.vpc_id
+  ingress_rules = []
+  egress_rules = []
 }
 
 # Module for creating the Application Load Balancer (ALB)
@@ -44,6 +63,7 @@ module "alb" {
   vpc_id             = "vpc-abcde012"
   subnets            = ["subnet-abcde012", "subnet-bcde012a"]
   internal           = false
+ sg_ids = [module.sg_alb.instance_security_group_id] 
   target_groups = {
     ex-instance = {
       name_prefix      = "h1"

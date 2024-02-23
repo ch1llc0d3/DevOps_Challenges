@@ -3,11 +3,6 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "alb_security_group_id" {
-  description = "The ID of the ALB security group to allow incoming traffic from."
-  type        = string
-}
-
 variable "instance_security_group_name" {
   description = "The name of the security group for EC2 instances."
   type        = string

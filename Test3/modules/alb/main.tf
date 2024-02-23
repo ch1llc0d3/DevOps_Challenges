@@ -3,6 +3,7 @@ resource "aws_lb" "my_alb" {
   internal           = var.internal
   load_balancer_type = "application"
   subnets            = var.subnets
+  security_groups = var.sg_ids
 }
 
 # Define ALB Listener to listen on port 80
