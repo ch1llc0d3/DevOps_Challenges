@@ -24,17 +24,17 @@ module "security" {
 
 # Module for creating the Application Load Balancer (ALB)
 module "alb" {
-  source            = "./modules/alb"
-  alb_name          = "my-alb"
-  internal          = false
+  source   = "./modules/alb"
+  alb_name = "my-alb"
+  internal = false
   # subnets             = ["subnet-123456", "subnet-654321"]
-  subnets           = module.vpc.public_subnet_ids
+  subnets = module.vpc.public_subnet_ids
   # security_group_ids  = ["sg-abcdef1234567890"]
   security_group_id = module.security.alb_security_group_id
   # target_group_name   = "my-target-group"
   target_group_name = "my-target-group"
   # vpc_id              = "vpc-123456789"
-  vpc_id            = module.vpc.vpc_id
+  vpc_id = module.vpc.vpc_id
 }
 
 output "alb_dns_name" {
